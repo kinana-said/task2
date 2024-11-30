@@ -18,7 +18,7 @@
 <div class="mb-3">
 <label for="image"class="form-label"><h3>image:</h3></label>
 <input type="file" name="images[]" multiple required>
-<h6> hold Ctrl to salect more than one image</h6>
+<h6> hold Ctrl to salect more than one image</h6>--
 </div>
    <input type="submit" class="btn btn-primary" name="submit" value="send">
   </form>
