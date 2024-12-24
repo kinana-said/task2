@@ -3,7 +3,12 @@
 @section("content")
 <div class="col align-self-start">
 <a  href="{{route('posts.create')}}"class="btn btn-primary m-3">ADD NEW POST</a>
-<br></div>
+<a  href="{{route('users.index')}}"class="btn btn-info">all USER</a>
+
+<form action="{{ route("logout") }}" method="post">
+    @csrf
+   <input type="submit" value="logout"class="btn btn-primary m-3"></form>
+</div>
 
 
 @if($message=Session::get('success'))
@@ -31,16 +36,18 @@
         @foreach (json_decode($post->image) as $image)
             <img src="{{ asset($image) }}" alt="Post Image" width="300px">
         @endforeach
-   
+
         @endif</td>
        <td>{{$post->title }}</td>
        <td> <p>{{$post->description }}</p></td>
        <td>
+
           <form action="{{route('posts.destroy',$post->id )}}" method="post">
             @csrf
             @method('DELETE')
+            @can('manageUser',Auth()->user())
             <button type="submit" class="btn btn-danger">Delete</button>
-          </form>
+          </form>@endcan
           <a   class="btn btn-primary" href="{{route('posts.edit',$post->id )}}">Edit</a>
           <a  class="btn btn-info" href="{{route('posts.show',$post->id )}}">Show</a>
          </td>

@@ -1,10 +1,20 @@
 <?php
-use App\Http\Controllers\postcontroller;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/', [AuthController::class,"showloginForm"])->name("login");
+Route::post('/', [AuthController::class,"login"])->name("login");
 
-Route::get('/', [postcontroller::class,"index"]);
-Route::resource('posts',postcontroller::class);
+Route::middleware('auth')->group(function () {
+    Route::post('/logout', [AuthController::class,"logout"])->name("logout");
+    Route::resource('posts',PostController::class);
+    Route::resource('users',UserController::class);
+});
+
+
+/*Route::get('/', [PostController::class,"index"]);*/
 /*
 Route::get('/', [postcontroller::class,"index"])->name("posts");
 Route::get('/add', [postcontroller::class,"create"])->name("posts.create");

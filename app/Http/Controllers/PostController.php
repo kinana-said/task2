@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
-
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Foundation\validation\validatesRequests;
+use Illuminate\Routing\Controller as BaseController;
 class PostController extends Controller
-{
+{   use AuthorizesRequests,DispatchesJobs,validatesRequests;
     /**
      * Display a listing of the resource.
      */
@@ -20,7 +23,7 @@ class PostController extends Controller
      * Show the form for creating a new resource.
      */
     public function create()
-    {
+    {    $this->authorize("manageUser" , User::class);
         return view("posts.create");
     }
 
@@ -30,6 +33,7 @@ class PostController extends Controller
       public function store(Request $request)
         {
 
+
             $images = [];
             if ($request->hasfile('images')) {
                 $images = [];
@@ -37,7 +41,7 @@ class PostController extends Controller
                     $name =  $image->getClientOriginalName()."-" .time() .
                     $image->getClientOriginalExtension();
                     $image->move(public_path('images/post'), $name); // تأكد من أن المسار صحيح
-                    $images[] = 'images/post/' . $name; // تخزين المسار النسبي
+                    $images[] = 'images/post/' . $name;
                 }
             }
 
@@ -127,7 +131,7 @@ class PostController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy(Post $post)
-    {
+    { $this->authorize("manageUser",User::class);
         $post->delete();
         return redirect()->route("posts.index")
         ->with('success','posts deleted successfully');
