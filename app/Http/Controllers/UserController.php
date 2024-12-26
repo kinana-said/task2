@@ -3,7 +3,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\validation\validatesRequests;
@@ -74,7 +74,7 @@ class UserController extends Controller
     {$this->authorize("manageUser",User::class);
         $request->validate([
             'name' => 'required|string|max:255',
-            'password' => 'required',
+
              'email'=> 'required',
         ]);
 
